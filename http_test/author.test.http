@@ -16,7 +16,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzk0YTc1N
     "name": "Shubham Dutta Developer"
 }
 
+
 ### Get an author with all it’s books (books sorted by publication year)
 GET http://localhost:5000/author/single
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzk0YTc1NGU3ZWNjNzA3MTMwOTNjYyIsImlhdCI6MTY1MjExNjA4NSwiZXhwIjoxNjgzNjczNjg1fQ._zKGWE7pLRhv_lAIGUDuR904lt5qYvndG1fzAusSz5s
+
+
+### Get list of authors with all their books, implement paging as well
+GET http://localhost:5000/author/list?page=1&&limit=1
 

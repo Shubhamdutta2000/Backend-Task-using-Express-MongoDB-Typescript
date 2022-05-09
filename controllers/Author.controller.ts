@@ -12,12 +12,39 @@ import generateAuthToken from "../utils/tokenGeneration";
  * @param {Request} req
  * @param {Response} res
  * @param {NextFunction} next
+ * @query {For paging} page, limit
  * @purpose Get list of authors with all their books, implement paging as well
  * @route /author/list
  * @public
  */
 const getAllAuthorWithAllBooks = catchAsync(
-  async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {}
+  async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {
+    const pg: any = req.query.page;
+    const lmt: any = req.query.limit;
+
+    // For paging
+    var page = parseInt(pg) || 0; //for next page pass 1 here
+    var limit = (lmt && parseInt(lmt)) || 3;
+
+    // list of authors with all their books (with aggregation)
+    const authorWithBooks = await AuthorModel.aggregate([
+      {
+        $lookup: {
+          from: "books",
+          localField: "_id",
+          foreignField: "author",
+          as: "books",
+        },
+      },
+    ])
+      .skip(page * limit)
+      .limit(limit);
+
+    res.json({
+      message: "Get List of authors with all their books",
+      body: authorWithBooks,
+    });
+  }
 );
 
 /**
@@ -29,7 +56,7 @@ const getAllAuthorWithAllBooks = catchAsync(
  * @route /author/single
  * @protected
  */
-const getAuthorWithAllBooks = catchAsync(
+const getSingleAuthorWithAllBooks = catchAsync(
   async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {
     // GET all books by particular author (sorted by publication_year)
     const booksByParticularAuthor: IBook[] = await BookModel.find({
@@ -121,6 +148,6 @@ const UpdateAuthorController = catchAsync(
 export {
   AddAuthorController,
   UpdateAuthorController,
-  getAuthorWithAllBooks,
+  getSingleAuthorWithAllBooks,
   getAllAuthorWithAllBooks,
 };

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllAuthorWithAllBooks = exports.getAuthorWithAllBooks = exports.UpdateAuthorController = exports.AddAuthorController = void 0;
+exports.getAllAuthorWithAllBooks = exports.getSingleAuthorWithAllBooks = exports.UpdateAuthorController = exports.AddAuthorController = void 0;
 const Author_model_1 = __importDefault(require("../models/Author.model"));
 const Book_model_1 = __importDefault(require("../models/Book.model"));
 const catchAsync_1 = require("../utils/catchAsync");
@@ -22,11 +22,35 @@ const tokenGeneration_1 = __importDefault(require("../utils/tokenGeneration"));
  * @param {Request} req
  * @param {Response} res
  * @param {NextFunction} next
+ * @query {For paging} page, limit
  * @purpose Get list of authors with all their books, implement paging as well
  * @route /author/list
  * @public
  */
-const getAllAuthorWithAllBooks = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () { }));
+const getAllAuthorWithAllBooks = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const pg = req.query.page;
+    const lmt = req.query.limit;
+    // For paging
+    var page = parseInt(pg) || 0; //for next page pass 1 here
+    var limit = (lmt && parseInt(lmt)) || 3;
+    // list of authors with all their books (with aggregation)
+    const authorWithBooks = yield Author_model_1.default.aggregate([
+        {
+            $lookup: {
+                from: "books",
+                localField: "_id",
+                foreignField: "author",
+                as: "books",
+            },
+        },
+    ])
+        .skip(page * limit)
+        .limit(limit);
+    res.json({
+        message: "Get List of authors with all their books",
+        body: authorWithBooks,
+    });
+}));
 exports.getAllAuthorWithAllBooks = getAllAuthorWithAllBooks;
 /**
  *
@@ -37,7 +61,7 @@ exports.getAllAuthorWithAllBooks = getAllAuthorWithAllBooks;
  * @route /author/single
  * @protected
  */
-const getAuthorWithAllBooks = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getSingleAuthorWithAllBooks = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     // GET all books by particular author (sorted by publication_year)
     const booksByParticularAuthor = yield Book_model_1.default.find({
@@ -55,7 +79,7 @@ const getAuthorWithAllBooks = (0, catchAsync_1.catchAsync)((req, res, next) => _
         },
     });
 }));
-exports.getAuthorWithAllBooks = getAuthorWithAllBooks;
+exports.getSingleAuthorWithAllBooks = getSingleAuthorWithAllBooks;
 /**
  *
  * @param {Request} req
