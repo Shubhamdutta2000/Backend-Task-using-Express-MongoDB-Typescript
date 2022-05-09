@@ -1,0 +1,9 @@
+POST http://localhost:5000/book/add
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzk0YTc1NGU3ZWNjNzA3MTMwOTNjYyIsImlhdCI6MTY1MjExNjA4NSwiZXhwIjoxNjgzNjczNjg1fQ._zKGWE7pLRhv_lAIGUDuR904lt5qYvndG1fzAusSz5s
+
+{
+    "name": "Three Men in a boat",
+    "publication_year": 12,
+    "type": "novel"
+}

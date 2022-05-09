@@ -12,31 +12,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AddAuthorController = void 0;
-const Author_model_1 = __importDefault(require("../models/Author.model"));
+exports.AddBookController = void 0;
+const Book_model_1 = __importDefault(require("../models/Book.model"));
 const catchAsync_1 = require("../utils/catchAsync");
-const tokenGeneration_1 = __importDefault(require("../utils/tokenGeneration"));
 /**
  *
  * @param {Request} req
  * @param {Response} res
- * @param {NextFunction} next
- * @route /author/add
- * @public
+ * @route /book/add
+ * @protected
  */
-const AddAuthorController = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name } = req.body;
-    const authorExist = yield Author_model_1.default.findOne({ name: name });
-    if (authorExist) {
-        const err = new Error("Author already exists");
-        next(err);
-    }
-    // If Author does not exist
-    const author = yield Author_model_1.default.create({ name: name });
+const AddBookController = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const { name, publication_year, type } = req.body;
+    const book = yield Book_model_1.default.create({
+        name: name,
+        publicationYear: publication_year,
+        type,
+        author: (_a = req.user) === null || _a === void 0 ? void 0 : _a.id,
+    });
     res.json({
         message: "Author added Successfully",
-        body: author,
-        token: (0, tokenGeneration_1.default)(author._id),
+        body: book,
     });
 }));
-exports.AddAuthorController = AddAuthorController;
+exports.AddBookController = AddBookController;

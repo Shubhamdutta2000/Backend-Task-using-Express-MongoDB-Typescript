@@ -4,5 +4,4 @@ import { ObjectId, Types } from "mongoose";
 export interface IAuthor {
   _id: ObjectId;
   name: string;
-  bookList?: Array<Types.ObjectId>;
 }

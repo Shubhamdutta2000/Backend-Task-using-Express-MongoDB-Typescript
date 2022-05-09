@@ -3,4 +3,5 @@ export interface IBook {
   name: string;
   publicationYear: string;
   type: string;
+  author?: Object;
 }

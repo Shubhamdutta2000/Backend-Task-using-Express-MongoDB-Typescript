@@ -8,6 +8,8 @@ import morgan from "morgan";
 // routers
 import HomeRouter from "./routes/Home.router";
 import AuthorRouter from "./routes/Author.router";
+import BookRouter from "./routes/Book.router";
+
 import { errorHandler, notFound } from "./middleware/errorHandler";
 
 dotenv.config();
@@ -31,7 +33,7 @@ app.use(morgan("dev"));
 // Routes
 app.use("/", HomeRouter);
 app.use("/author", AuthorRouter);
-// app.use("/book", BookRouter);
+app.use("/book", BookRouter);
 
 // custom middleware
 app.use(notFound);
