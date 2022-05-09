@@ -33,7 +33,7 @@ app.use(morgan("dev"));
 // Routes
 app.use("/", HomeRouter);
 app.use("/author", AuthorRouter);
-app.use("/book", BookRouter);
+app.use("/books", BookRouter);
 
 // custom middleware
 app.use(notFound);

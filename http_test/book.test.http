@@ -1,6 +1,6 @@
 
 ### Add a book
-POST http://localhost:5000/book/add
+POST http://localhost:5000/books/add
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzk0YTc1NGU3ZWNjNzA3MTMwOTNjYyIsImlhdCI6MTY1MjExNjA4NSwiZXhwIjoxNjgzNjczNjg1fQ._zKGWE7pLRhv_lAIGUDuR904lt5qYvndG1fzAusSz5s
 
@@ -12,7 +12,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzk0YTc1N
 
 
 ### Update a book
-PUT http://localhost:5000/book/update/62795657a68c65fbb3bc0bb1
+PUT http://localhost:5000/books/update/62795657a68c65fbb3bc0bb1
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzk0YTc1NGU3ZWNjNzA3MTMwOTNjYyIsImlhdCI6MTY1MjExNjA4NSwiZXhwIjoxNjgzNjczNjg1fQ._zKGWE7pLRhv_lAIGUDuR904lt5qYvndG1fzAusSz5s
 

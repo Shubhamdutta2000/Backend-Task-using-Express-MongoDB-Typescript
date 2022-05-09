@@ -26,7 +26,7 @@ const getAllAuthorWithAllBooks = catchAsync(
     var page = parseInt(pg) || 0; //for next page pass 1 here
     var limit = (lmt && parseInt(lmt)) || 3;
 
-    // list of authors with all their books (with aggregation)
+    // list of authors with all their books (with inner join aggregation)
     const authorWithBooks = await AuthorModel.aggregate([
       {
         $lookup: {
