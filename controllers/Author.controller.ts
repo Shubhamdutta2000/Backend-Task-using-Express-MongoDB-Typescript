@@ -1,6 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { IAuthor } from "../interface/Author.interface.";
+import { IBook } from "../interface/Book.interface";
+import { IGetUserAuthInfoRequest } from "../interface/IGetUserAuthInfoRequest.interface";
 import AuthorModel from "../models/Author.model";
+import BookModel from "../models/Book.model";
 import { catchAsync } from "../utils/catchAsync";
 import generateAuthToken from "../utils/tokenGeneration";
 
@@ -9,6 +12,53 @@ import generateAuthToken from "../utils/tokenGeneration";
  * @param {Request} req
  * @param {Response} res
  * @param {NextFunction} next
+ * @purpose Get list of authors with all their books, implement paging as well
+ * @route /author/list
+ * @public
+ */
+const getAllAuthorWithAllBooks = catchAsync(
+  async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {}
+);
+
+/**
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @purpose Get an author with all it’s books (books sorted by publication year)
+ * @route /author/single
+ * @protected
+ */
+const getAuthorWithAllBooks = catchAsync(
+  async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {
+    // GET all books by particular author (sorted by publication_year)
+    const booksByParticularAuthor: IBook[] = await BookModel.find({
+      author: req.user?.id,
+    }).sort({
+      publication_year: 1,
+    });
+
+    // GET author details
+    const authorDetails: IAuthor | null = await AuthorModel.findById(
+      req.user?.id
+    );
+
+    res.json({
+      message: "Author details fetched Successfully with all books",
+      body: {
+        authorName: authorDetails?.name,
+        books: booksByParticularAuthor,
+      },
+    });
+  }
+);
+
+/**
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @purpose Add an author (name)
  * @route /author/add
  * @public
  */
@@ -16,7 +66,9 @@ const AddAuthorController = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { name } = req.body;
 
-    const authorExist = await AuthorModel.findOne({ name: name });
+    const authorExist: IAuthor | null = await AuthorModel.findOne({
+      name: name,
+    });
     if (authorExist) {
       const err = new Error("Author already exists");
       next(err);
@@ -33,4 +85,42 @@ const AddAuthorController = catchAsync(
   }
 );
 
-export { AddAuthorController };
+/**
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @purpose Update an author
+ * @route /author/update
+ * @protected
+ */
+const UpdateAuthorController = catchAsync(
+  async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {
+    const { name } = req.body;
+
+    const authorExist = await AuthorModel.findById(req.user?.id);
+    if (!authorExist) {
+      const err = new Error("Author does not exists");
+      next(err);
+    }
+
+    // If author exist
+    const author: IAuthor | null = await AuthorModel.findByIdAndUpdate(
+      req.user?.id,
+      { name: name },
+      { new: true }
+    );
+
+    res.json({
+      message: "Author updated Successfully",
+      body: author,
+    });
+  }
+);
+
+export {
+  AddAuthorController,
+  UpdateAuthorController,
+  getAuthorWithAllBooks,
+  getAllAuthorWithAllBooks,
+};
