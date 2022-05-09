@@ -17,7 +17,6 @@ const Author_model_1 = __importDefault(require("../models/Author.model"));
 const catchAsync_1 = require("../utils/catchAsync");
 const tokenGeneration_1 = __importDefault(require("../utils/tokenGeneration"));
 const AddAuthorController = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
     const { name } = req.body;
     const author = yield Author_model_1.default.create({ name: name });
     res.json({

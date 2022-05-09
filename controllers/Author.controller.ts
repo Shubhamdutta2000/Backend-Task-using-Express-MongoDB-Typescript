@@ -5,10 +5,7 @@ import { catchAsync } from "../utils/catchAsync";
 import generateAuthToken from "../utils/tokenGeneration";
 
 const AddAuthorController = catchAsync(async (req: Request, res: Response) => {
-  console.log(req.body);
-
   const { name } = req.body;
-
   const author: IAuthor = await AuthorModel.create({ name: name });
 
   res.json({

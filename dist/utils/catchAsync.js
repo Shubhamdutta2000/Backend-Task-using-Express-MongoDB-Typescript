@@ -7,6 +7,9 @@ exports.catchAsync = void 0;
  * @returns
  */
 const catchAsync = (fn) => (req, res, next) => {
-    Promise.resolve(fn(req, res, next)).catch((err) => next(err));
+    Promise.resolve(fn(req, res, next)).catch((err) => {
+        console.log(err.message);
+        next(err);
+    });
 };
 exports.catchAsync = catchAsync;
