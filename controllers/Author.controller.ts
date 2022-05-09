@@ -1,9 +1,11 @@
 import { NextFunction, Request, Response } from "express";
-import { IAuthor } from "../interface/Author.interface.";
-import { IBook } from "../interface/Book.interface";
 import { IGetUserAuthInfoRequest } from "../interface/IGetUserAuthInfoRequest.interface";
-import AuthorModel from "../models/Author.model";
-import BookModel from "../models/Book.model";
+import {
+  AddAuthorService,
+  getAllAuthorWithAllBooksService,
+  getSingleAuthorWithAllBooksService,
+  UpdateAuthorService,
+} from "../services/Author.service";
 import { catchAsync } from "../utils/catchAsync";
 import generateAuthToken from "../utils/tokenGeneration";
 
@@ -22,27 +24,12 @@ const getAllAuthorWithAllBooks = catchAsync(
     const pg: any = req.query.page;
     const lmt: any = req.query.limit;
 
-    // For paging
-    var page = parseInt(pg) || 0; //for next page pass 1 here
-    var limit = (lmt && parseInt(lmt)) || 3;
-
-    // list of authors with all their books (with inner join aggregation)
-    const authorWithBooks = await AuthorModel.aggregate([
-      {
-        $lookup: {
-          from: "books",
-          localField: "_id",
-          foreignField: "author",
-          as: "books",
-        },
-      },
-    ])
-      .skip(page * limit)
-      .limit(limit);
+    // get list of authors with all their books
+    const allAuthorWithBooks = getAllAuthorWithAllBooksService(pg, lmt);
 
     res.json({
       message: "Get List of authors with all their books",
-      body: authorWithBooks,
+      body: allAuthorWithBooks,
     });
   }
 );
@@ -58,17 +45,9 @@ const getAllAuthorWithAllBooks = catchAsync(
  */
 const getSingleAuthorWithAllBooks = catchAsync(
   async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {
-    // GET all books by particular author (sorted by publication_year)
-    const booksByParticularAuthor: IBook[] = await BookModel.find({
-      author: req.user?.id,
-    }).sort({
-      publication_year: 1,
-    });
-
-    // GET author details
-    const authorDetails: IAuthor | null = await AuthorModel.findById(
-      req.user?.id
-    );
+    // get an author details and list of books of particular author
+    const { authorDetails, booksByParticularAuthor } =
+      await getSingleAuthorWithAllBooksService(req.user?.id);
 
     res.json({
       message: "Author details fetched Successfully with all books",
@@ -93,16 +72,8 @@ const AddAuthorController = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { name } = req.body;
 
-    const authorExist: IAuthor | null = await AuthorModel.findOne({
-      name: name,
-    });
-    if (authorExist) {
-      const err = new Error("Author already exists");
-      next(err);
-    }
-
-    // If Author does not exist
-    const author: IAuthor = await AuthorModel.create({ name: name });
+    // add author service
+    const author = await AddAuthorService(next, name);
 
     res.json({
       message: "Author added Successfully",
@@ -125,18 +96,8 @@ const UpdateAuthorController = catchAsync(
   async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {
     const { name } = req.body;
 
-    const authorExist = await AuthorModel.findById(req.user?.id);
-    if (!authorExist) {
-      const err = new Error("Author does not exists");
-      next(err);
-    }
-
-    // If author exist
-    const author: IAuthor | null = await AuthorModel.findByIdAndUpdate(
-      req.user?.id,
-      { name: name },
-      { new: true }
-    );
+    // update author service
+    const author = UpdateAuthorService(next, req.user?.id);
 
     res.json({
       message: "Author updated Successfully",
