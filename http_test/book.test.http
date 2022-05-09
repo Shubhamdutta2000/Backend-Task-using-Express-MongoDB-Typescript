@@ -2,11 +2,11 @@
 ### Add a book
 POST http://localhost:5000/books/add
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzk0YTc1NGU3ZWNjNzA3MTMwOTNjYyIsImlhdCI6MTY1MjExNjA4NSwiZXhwIjoxNjgzNjczNjg1fQ._zKGWE7pLRhv_lAIGUDuR904lt5qYvndG1fzAusSz5s
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzk4NDZiMmVjOGJlNTE2Yjk4YzZmZiIsImlhdCI6MTY1MjEzMDkyMywiZXhwIjoxNjgzNjg4NTIzfQ._h2S9_T60xa7n725GzKQEbGhEy6fULEGbXCmlrcB8lA
 
 {
-    "name": "Invisible Man",
-    "publication_year": 12,
+    "name": "3 mistakes of my life",
+    "publication_year": 14,
     "type": "novel"
 }
 
@@ -17,7 +17,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzk0YTc1NGU3ZWNjNzA3MTMwOTNjYyIsImlhdCI6MTY1MjExNjA4NSwiZXhwIjoxNjgzNjczNjg1fQ._zKGWE7pLRhv_lAIGUDuR904lt5qYvndG1fzAusSz5s
 
 {
-    "name": "Invisible Man (updated)",
+    "name": "Invisible Man",
     "publication_year": 14,
     "type": "novel"
 }

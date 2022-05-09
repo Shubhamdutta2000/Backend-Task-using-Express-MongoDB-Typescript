@@ -92,6 +92,7 @@ export const AddAuthorService = async (next: NextFunction, name: string) => {
  * @returns author details after updating a new author
  */
 export const UpdateAuthorService = async (
+  name: string,
   next: NextFunction,
   authorId: ObjectId | undefined
 ) => {

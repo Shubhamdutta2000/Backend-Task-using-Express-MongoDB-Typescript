@@ -28,7 +28,7 @@ app.use((0, morgan_1.default)("dev"));
 // Routes
 app.use("/", Home_router_1.default);
 app.use("/author", Author_router_1.default);
-app.use("/book", Book_router_1.default);
+app.use("/books", Book_router_1.default);
 // custom middleware
 app.use(errorHandler_1.notFound);
 app.use(errorHandler_1.errorHandler);

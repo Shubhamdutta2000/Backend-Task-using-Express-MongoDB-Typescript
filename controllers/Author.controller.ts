@@ -25,7 +25,7 @@ const getAllAuthorWithAllBooks = catchAsync(
     const lmt: any = req.query.limit;
 
     // get list of authors with all their books
-    const allAuthorWithBooks = getAllAuthorWithAllBooksService(pg, lmt);
+    const allAuthorWithBooks = await getAllAuthorWithAllBooksService(pg, lmt);
 
     res.json({
       message: "Get List of authors with all their books",
@@ -97,7 +97,7 @@ const UpdateAuthorController = catchAsync(
     const { name } = req.body;
 
     // update author service
-    const author = UpdateAuthorService(next, req.user?.id);
+    const author = await UpdateAuthorService(name, next, req.user?.id);
 
     res.json({
       message: "Author updated Successfully",

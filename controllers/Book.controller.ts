@@ -2,6 +2,7 @@ import { NextFunction, Response } from "express";
 import { IBook } from "../interface/Book.interface";
 import { IGetUserAuthInfoRequest } from "../interface/IGetUserAuthInfoRequest.interface";
 import BookModel from "../models/Book.model";
+import { AddBookService, UpdateBookService } from "../services/Book.service";
 import { catchAsync } from "../utils/catchAsync";
 
 /**
@@ -16,12 +17,13 @@ const AddBookController = catchAsync(
   async (req: IGetUserAuthInfoRequest, res: Response) => {
     const { name, publication_year, type } = req.body;
 
-    const book: IBook = await BookModel.create({
-      name: name,
-      publicationYear: publication_year,
+    // add book service
+    const book = await AddBookService(
+      name,
+      publication_year,
       type,
-      author: req.user?.id,
-    });
+      req.user?.id
+    );
 
     res.json({
       message: "Author added Successfully",
@@ -42,18 +44,10 @@ const AddBookController = catchAsync(
 const UpdateBookController = catchAsync(
   async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {
     const { name, publication_year, type } = req.body;
-    const { id } = req.params;
+    const { id: bookId } = req.params;
 
-    // find by book id and update the book details
-    const book: IBook | null = await BookModel.findByIdAndUpdate(
-      id,
-      {
-        name: name,
-        publicationYear: publication_year,
-        type,
-      },
-      { new: true }
-    );
+    // update book service
+    const book = await UpdateBookService(name, publication_year, type, bookId);
 
     res.json({
       message: "Author updated Successfully",

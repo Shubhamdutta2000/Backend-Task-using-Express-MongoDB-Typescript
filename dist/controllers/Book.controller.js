@@ -8,12 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateBookController = exports.AddBookController = void 0;
-const Book_model_1 = __importDefault(require("../models/Book.model"));
+const Book_service_1 = require("../services/Book.service");
 const catchAsync_1 = require("../utils/catchAsync");
 /**
  *
@@ -26,12 +23,8 @@ const catchAsync_1 = require("../utils/catchAsync");
 const AddBookController = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const { name, publication_year, type } = req.body;
-    const book = yield Book_model_1.default.create({
-        name: name,
-        publicationYear: publication_year,
-        type,
-        author: (_a = req.user) === null || _a === void 0 ? void 0 : _a.id,
-    });
+    // add book service
+    const book = yield (0, Book_service_1.AddBookService)(name, publication_year, type, (_a = req.user) === null || _a === void 0 ? void 0 : _a.id);
     res.json({
         message: "Author added Successfully",
         body: book,
@@ -49,13 +42,9 @@ exports.AddBookController = AddBookController;
  */
 const UpdateBookController = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, publication_year, type } = req.body;
-    const { id } = req.params;
-    // find by book id and update the book details
-    const book = yield Book_model_1.default.findByIdAndUpdate(id, {
-        name: name,
-        publicationYear: publication_year,
-        type,
-    }, { new: true });
+    const { id: bookId } = req.params;
+    // update book service
+    const book = yield (0, Book_service_1.UpdateBookService)(name, publication_year, type, bookId);
     res.json({
         message: "Author updated Successfully",
         body: book,

@@ -4,7 +4,7 @@ POST http://localhost:5000/author/add
 Content-Type: application/json
 
 {
-    "name": "Shubham Dutta"
+    "name": "Chetan Bhagat"
 }
 
 ### Update an author
@@ -13,7 +13,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzk0YTc1NGU3ZWNjNzA3MTMwOTNjYyIsImlhdCI6MTY1MjExNjA4NSwiZXhwIjoxNjgzNjczNjg1fQ._zKGWE7pLRhv_lAIGUDuR904lt5qYvndG1fzAusSz5s
 
 {
-    "name": "Shubham Dutta Developer"
+    "name": "Shubham Dutta Web3 Developer"
 }
 
 
@@ -23,5 +23,5 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzk0YTc1N
 
 
 ### Get list of authors with all their books, implement paging as well
-GET http://localhost:5000/author/list?page=1&&limit=1
+GET http://localhost:5000/author/list?page=0&&limit=4
 
