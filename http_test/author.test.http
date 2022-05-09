@@ -1,0 +1,6 @@
+POST http://localhost:5000/author/add
+Content-Type: application/json
+
+{
+    "name": "Shubham Dutta"
+}
