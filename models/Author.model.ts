@@ -1,4 +1,4 @@
-import { model, Schema, Types } from "mongoose";
+import { model, Schema } from "mongoose";
 import { IAuthor } from "../interface/Author.interface.";
 
 // Create a Schema corresponding to the document interface.

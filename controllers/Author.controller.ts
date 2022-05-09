@@ -18,7 +18,7 @@ import generateAuthToken from "../utils/tokenGeneration";
  * @public
  */
 const getAllAuthorWithAllBooks = catchAsync(
-  async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const pg: any = req.query.page;
     const lmt: any = req.query.limit;
 
@@ -49,7 +49,7 @@ const getAllAuthorWithAllBooks = catchAsync(
 
 /**
  *
- * @param {Request} req
+ * @param {IGetUserAuthInfoRequest} req
  * @param {Response} res
  * @param {NextFunction} next
  * @purpose Get an author with all it’s books (books sorted by publication year)
@@ -114,7 +114,7 @@ const AddAuthorController = catchAsync(
 
 /**
  *
- * @param {Request} req
+ * @param {IGetUserAuthInfoRequest} req
  * @param {Response} res
  * @param {NextFunction} next
  * @purpose Update an author
