@@ -1,7 +1,7 @@
 # Backend Tasks
 
 > 1. A node js (typescript preferred) application with ExpressJS
-> 2. Create a program (any language) that implements two functions
+> 2. Create a program (any language) that implements two functions, addScore and getAverage
 
 <br />
 
@@ -35,8 +35,9 @@
 
 ## Task 2:
 
+- ***Problem***
+
 ```
-## Problem
 Create a program (any language) that implements two functions
     1. addScore(score)
         a. Add score to the list
