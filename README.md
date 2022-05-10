@@ -1,10 +1,11 @@
-# Backend Task With Express Typescript
+# Backend Tasks
 
-> A node js (typescript preferred) application with ExpressJS
+> 1. A node js (typescript preferred) application with ExpressJS
+> 2. Create a program (any language) that implements two functions
 
 <br />
 
-## Task:
+## Task 1:
 
 1. Add an author (name)
 2. Add book under an author (name, publication year, type)
@@ -25,6 +26,29 @@
 | PUT `/author/update` (protected)    | Update a particular author              |
 | POST `/books/add` (protected)       | Add a book                              |
 | PUT `/books/update/:id` (protected) | Update a particular book                |
+
+<br />
+
+---
+
+<br />
+
+## Task 2:
+
+```
+## Problem
+Create a program (any language) that implements two functions
+    1. addScore(score)
+        a. Add score to the list
+    2. getAverage() returns avg
+        a. Gives the avg, logic to calculate avg is as follows
+        b. If number of scores is 0 then return null/undefined
+        c. If number of scores <= 2 then return avg of all
+        d. If number of score > 2 then return avg excluding min and max
+```
+
+- **_Solution_**
+  - https://github.com/Shubhamdutta2000/Backend_task_with_Express_Typescript/blob/main/Task_2.js
 
 <br />
 
